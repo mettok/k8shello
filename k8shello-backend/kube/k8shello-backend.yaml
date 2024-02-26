@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8shello-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8shello-backend
+  template:
+    metadata:
+      labels:
+        app: k8shello-backend
+    spec:
+      containers:
+        - name: app
+          image: mehdiz/k8shello-backend:1.0.0
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8shello-backend
+spec:
+  selector:
+    app: k8shello-backend
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
